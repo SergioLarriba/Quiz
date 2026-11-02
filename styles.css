@@ -1,0 +1,299 @@
+/* ---------- Colores ---------- */
+:root {
+  --bg: #fff6f3;
+  --card: #ffffff;
+  --ink: #3a2a2f;
+  --muted: #8a737a;
+  --rose: #e0567a;
+  --rose-soft: #fde3ea;
+  --ok: #2f9e6e;
+  --ok-soft: #dff5ea;
+  --bad: #d2493f;
+  --bad-soft: #fbe2df;
+  --facil: #4caf88;
+  --medio: #e8a23a;
+  --dificil: #d2493f;
+  --final: #d4a537;
+  --gold: #f3c969;
+  --ultra: #ff2e63;
+  --neon: #ff2e63;
+}
+
+/* ---------- Base ---------- */
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Nunito", system-ui, sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 15% 10%, #ffe0e8 0, transparent 40%),
+    radial-gradient(circle at 85% 90%, #ffe9d6 0, transparent 40%),
+    var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+}
+.card {
+  width: 100%;
+  max-width: 560px;
+  background: var(--card);
+  border-radius: 24px;
+  padding: 32px 28px;
+  box-shadow: 0 20px 50px -20px rgba(160, 60, 90, .35);
+  animation: aparecer .4s ease;
+}
+@keyframes aparecer { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Texto ---------- */
+h1, h2 { font-family: "Fraunces", Georgia, serif; margin: 0 0 12px; line-height: 1.15; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.45rem; }
+p { line-height: 1.55; margin: 0 0 16px; }
+.muted { color: var(--muted); }
+.center { text-align: center; }
+.corazon { font-size: 3rem; display: block; margin-bottom: 8px; animation: latir 1.4s infinite; }
+@keyframes latir { 0%,100% { transform: scale(1); } 15% { transform: scale(1.15); } 30% { transform: scale(1); } }
+
+/* ---------- Botones ---------- */
+button {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+}
+.btn {
+  background: var(--rose);
+  color: #fff;
+  font-weight: 700;
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-size: 1.05rem;
+  transition: transform .15s, box-shadow .15s;
+  box-shadow: 0 8px 20px -8px var(--rose);
+}
+.btn:hover { transform: translateY(-2px); }
+
+/* ---------- Cabecera de pregunta ---------- */
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  font-size: .9rem;
+  font-weight: 700;
+}
+.nivel {
+  padding: 4px 12px;
+  border-radius: 999px;
+  color: #fff;
+  font-size: .8rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.barra { height: 8px; background: var(--rose-soft); border-radius: 999px; overflow: hidden; margin-bottom: 24px; }
+.barra > div { height: 100%; background: var(--rose); border-radius: 999px; transition: width .4s ease; }
+
+.foto { width: 100%; max-height: 260px; object-fit: cover; border-radius: 16px; margin-bottom: 18px; }
+
+/* ---------- Opciones de respuesta ---------- */
+.opciones { display: grid; gap: 10px; margin-top: 8px; }
+.opcion {
+  text-align: left;
+  background: #fff;
+  border: 2px solid #f1dde3;
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-size: 1rem;
+  color: var(--ink);
+  transition: border-color .15s, background .15s, transform .1s;
+}
+.opcion:hover:not(:disabled) { border-color: var(--rose); transform: translateX(3px); }
+.opcion:disabled { cursor: default; }
+.opcion.correcta { border-color: var(--ok); background: var(--ok-soft); }
+.opcion.incorrecta { border-color: var(--bad); background: var(--bad-soft); }
+
+.feedback {
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: 14px;
+  background: var(--rose-soft);
+  animation: aparecer .3s ease;
+}
+.feedback strong { display: block; margin-bottom: 4px; }
+.acciones { margin-top: 20px; text-align: right; }
+
+/* ---------- Intro de nivel y resultado ---------- */
+.intro-nivel .emoji { font-size: 3rem; display: block; margin-bottom: 8px; }
+.resumen { display: grid; gap: 8px; margin: 20px 0; text-align: left; }
+.resumen div { display: flex; justify-content: space-between; padding: 10px 14px; border-radius: 12px; background: var(--bg); font-weight: 600; }
+.puntos-grandes { font-family: "Fraunces", serif; font-size: 3.2rem; color: var(--rose); margin: 8px 0; }
+
+/* ---------- Corazones que caen ---------- */
+.confeti { position: fixed; top: -20px; font-size: 1.4rem; pointer-events: none; animation: caer linear forwards; z-index: 10; }
+@keyframes caer { to { transform: translateY(110vh) rotate(360deg); opacity: .8; } }
+
+/* ---------- 👑 Pregunta final ---------- */
+/* Capa oscura que "apaga la luz" detrás de la tarjeta */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 50% 40%, #2a1830 0, #0d0810 70%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1.2s ease;
+}
+.modo-final::before { opacity: 1; }
+.card { position: relative; transition: background 1.2s, color 1.2s, box-shadow 1.2s; }
+.modo-final .card {
+  background: #1b1220;
+  color: #fbeee6;
+  box-shadow: 0 0 0 1px rgba(243, 201, 105, .35), 0 0 60px -10px rgba(243, 201, 105, .45);
+}
+.modo-final .muted { color: #c9b3bd; }
+.modo-final h2 { color: var(--gold); }
+.modo-final .barra { background: #3a2a40; }
+.modo-final .barra > div { background: var(--gold); }
+.modo-final .opcion { background: transparent; color: #fbeee6; border-color: #4a3550; }
+.modo-final .opcion:hover:not(:disabled) { border-color: var(--gold); }
+.modo-final .opcion.correcta { background: var(--ok-soft); border-color: var(--ok); color: var(--ink); }
+.modo-final .opcion.incorrecta { background: var(--bad-soft); border-color: var(--bad); color: var(--ink); }
+.modo-final .feedback { color: var(--ink); }
+
+.final-frase {
+  font-family: "Fraunces", Georgia, serif;
+  font-style: italic;
+  font-size: 1.6rem;
+  padding: 40px 0;
+  animation: frase 2s ease forwards;
+}
+@keyframes frase {
+  0%   { opacity: 0; letter-spacing: .2em; filter: blur(6px); }
+  25%  { opacity: 1; letter-spacing: normal; filter: none; }
+  80%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.cuenta {
+  display: inline-block;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 7rem;
+  color: var(--gold);
+  text-shadow: 0 0 30px rgba(243, 201, 105, .7);
+  animation: cuenta 1s ease-out forwards;
+}
+@keyframes cuenta {
+  0%   { transform: scale(2.5); opacity: 0; }
+  30%  { transform: scale(1);   opacity: 1; }
+  100% { transform: scale(.6);  opacity: 0; }
+}
+
+.destello {
+  position: fixed;
+  inset: 0;
+  background: #fff8e1;
+  pointer-events: none;
+  z-index: 20;
+  animation: destello 1.2s ease-out forwards;
+}
+@keyframes destello { from { opacity: .95; } to { opacity: 0; } }
+
+@keyframes temblor {
+  0%, 100% { transform: none; }
+  20% { transform: translate(-8px, 4px) rotate(-1deg); }
+  40% { transform: translate(8px, -4px) rotate(1deg); }
+  60% { transform: translate(-5px, 2px); }
+  80% { transform: translate(5px, -2px); }
+}
+
+.corona { font-size: 4rem; display: block; animation: corona 2s ease-in-out infinite; }
+@keyframes corona { 0%, 100% { transform: translateY(0) rotate(-5deg); } 50% { transform: translateY(-8px) rotate(5deg); } }
+.titulo-final {
+  font-size: 2.6rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  background: linear-gradient(90deg, #d4a537, #fff3c4, #d4a537);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: brillo 2.5s linear infinite;
+}
+@keyframes brillo { to { background-position: 200% center; } }
+.btn-final {
+  background: linear-gradient(135deg, #d4a537, #f3c969);
+  color: #2a1830;
+  box-shadow: 0 0 25px -5px var(--gold);
+}
+
+/* ---------- 🚨 Super Ultra Mega Difícil ---------- */
+.puntos-carga::after { content: ""; animation: puntos 1.2s steps(4) infinite; }
+@keyframes puntos { 0% { content: ""; } 25% { content: "."; } 50% { content: ".."; } 75% { content: "..."; } }
+
+.card.glitch { animation: glitch .25s steps(2) infinite; }
+@keyframes glitch {
+  0%   { transform: translate(0); filter: none; }
+  25%  { transform: translate(-6px, 3px) skewX(6deg); filter: hue-rotate(90deg) saturate(3); }
+  50%  { transform: translate(5px, -2px); filter: invert(1); }
+  75%  { transform: translate(-3px, -3px) skewX(-8deg); filter: hue-rotate(-90deg); }
+  100% { transform: translate(0); filter: none; }
+}
+
+.alarma {
+  position: fixed;
+  inset: 0;
+  background: #ff0033;
+  pointer-events: none;
+  z-index: 20;
+  animation: alarma .4s ease-in-out 6 forwards;
+}
+@keyframes alarma { 0%, 100% { opacity: 0; } 50% { opacity: .55; } }
+
+.modo-ultra::before { opacity: 1; background: radial-gradient(circle at 50% 40%, #3a0614 0, #08020a 70%); }
+.modo-ultra .card {
+  background: #12060c;
+  color: #fff0f3;
+  animation: pulso-rojo 1.2s ease-in-out infinite;
+}
+@keyframes pulso-rojo {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(255, 46, 99, .4), 0 0 40px -10px rgba(255, 46, 99, .5); }
+  50%      { box-shadow: 0 0 0 2px rgba(255, 46, 99, .9), 0 0 90px 0 rgba(255, 46, 99, .7); }
+}
+.modo-ultra .muted { color: #e0b0bd; }
+.modo-ultra h2 { color: #fff; text-shadow: 0 0 12px var(--neon); }
+.modo-ultra .barra { background: #3a0e1c; }
+.modo-ultra .barra > div { background: var(--neon); }
+.modo-ultra .opcion { background: transparent; color: #fff0f3; border-color: #5a1a2c; }
+.modo-ultra .opcion:hover:not(:disabled) { border-color: var(--neon); }
+.modo-ultra .opcion.correcta { background: var(--ok-soft); border-color: var(--ok); color: var(--ink); }
+.modo-ultra .opcion.incorrecta { background: var(--bad-soft); border-color: var(--bad); color: var(--ink); }
+.modo-ultra .feedback { color: var(--ink); }
+.modo-ultra .nivel { animation: latir 1s infinite; }
+
+.texto-glitch { position: relative; text-shadow: 2px 0 #00e5ff, -2px 0 var(--neon); animation: frase 2s ease forwards, temblor-texto .15s steps(2) infinite; }
+@keyframes temblor-texto { 50% { text-shadow: -2px 0 #00e5ff, 2px 0 var(--neon); } }
+
+.sirena { font-size: 4rem; display: block; animation: sirena .5s ease-in-out infinite alternate; }
+@keyframes sirena { from { transform: rotate(-12deg) scale(1); } to { transform: rotate(12deg) scale(1.15); } }
+.titulo-ultra { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 2.6rem; min-height: 4em; }
+.palabra {
+  display: block;
+  color: var(--neon);
+  text-shadow: 0 0 20px var(--neon), 3px 0 #00e5ff;
+  letter-spacing: .08em;
+  animation: golpe .35s cubic-bezier(.2, 1.6, .4, 1) forwards;
+}
+.palabra:last-child { color: #fff; }
+@keyframes golpe { from { transform: scale(4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.btn-ultra {
+  background: var(--neon);
+  box-shadow: 0 0 30px -5px var(--neon);
+  animation: latir 1.2s infinite;
+}
+
+/* ---------- Móvil ---------- */
+@media (max-width: 420px) {
+  .card { padding: 26px 20px; }
+  h1 { font-size: 1.7rem; }
+}
